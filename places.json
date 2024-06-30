@@ -1,0 +1,176 @@
+[
+  {
+    "name": "Cox's Bazar",
+    "img": "https://i.postimg.cc/LsQBnkz4/258976-cox.jpg",
+    "price": 1200,
+    "category": "3 days",
+    "division": "Chittagong",
+    "sub_place_name": "Inani Beach, Himchari National Park",
+    "activity": "Beach activities, hiking, photography",
+    "include": "Hotel stay, breakfast, guided tour",
+    "not_include": "Lunch, dinner, personal expenses",
+    "best_time_to_travel": "November to February",
+    "description": "Cox's Bazar is the longest natural sea beach in the world, offering stunning views of the Bay of Bengal. It is a popular destination for beach lovers and adventure enthusiasts.",
+    "itinerary": {
+      "day_1": "Arrival at Cox's Bazar, check-in at hotel, visit Laboni Beach in the evening.",
+      "day_2": "Full-day tour to Inani Beach and Himchari National Park, enjoy beach activities.",
+      "day_3": "Morning visit to local markets, check-out from hotel, departure."
+    }
+  },
+  {
+    "name": "Sundarbans",
+    "img": "https://i.postimg.cc/bwNmrwKT/sundarbans.jpg",
+    "price": 250,
+    "category": "3 days",
+    "division": "Khulna",
+    "sub_place_name": "Kotka Beach, Hiron Point",
+    "activity": "Boat safari, wildlife watching, photography",
+    "include": "Boat cruise, meals, forest guide",
+    "not_include": "Personal expenses, extra activities",
+    "best_time_to_travel": "October to March",
+    "description": "The Sundarbans is the largest mangrove forest in the world and home to the Royal Bengal Tiger. It offers an exciting experience for nature lovers and wildlife enthusiasts.",
+    "itinerary": {
+      "day_1": "Arrival at Khulna, transfer to boat, start cruise into Sundarbans, visit local villages.",
+      "day_2": "Full-day boat safari, visit Kotka Beach and Hiron Point, wildlife watching.",
+      "day_3": "Morning bird watching, return cruise to Khulna, departure."
+    }
+  },
+  {
+    "name": "Srimangal",
+    "img": "https://i.postimg.cc/PxwCM18M/1575644735665.jpg",
+    "price": 150,
+    "category": "3 days",
+    "division": "Sylhet",
+    "sub_place_name": "Lawachara National Park, Tea Gardens",
+    "activity": "Tea tasting, hiking, bird watching",
+    "include": "Hotel stay, breakfast, guided tour",
+    "not_include": "Lunch, dinner, personal expenses",
+    "best_time_to_travel": "October to March",
+    "description": "Srimangal is known as the 'Tea Capital of Bangladesh' and is famous for its lush green tea gardens, serene environment, and rich biodiversity.",
+    "itinerary": {
+      "day_1": "Arrival at Srimangal, check-in at hotel, visit local tea gardens.",
+      "day_2": "Full-day tour to Lawachara National Park, bird watching and hiking.",
+      "day_3": "Visit local market for tea tasting, check-out from hotel, departure."
+    }
+  },
+  {
+    "name": "Bandarban",
+    "img": "https://i.postimg.cc/3x5njZ4t/pic-01.jpg",
+    "price": 200,
+    "category": "3 days",
+    "division": "Chittagong",
+    "sub_place_name": "Nilgiri, Nafakhum Waterfall",
+    "activity": "Trekking, cultural visits, photography",
+    "include": "Hotel stay, breakfast, guided tour",
+    "not_include": "Lunch, dinner, personal expenses",
+    "best_time_to_travel": "November to April",
+    "description": "Bandarban is a hilly district offering spectacular natural beauty, including hills, waterfalls, and diverse tribal cultures. It is ideal for trekking and adventure activities.",
+    "itinerary": {
+      "day_1": "Arrival at Bandarban, check-in at hotel, visit local tribal villages.",
+      "day_2": "Full-day trekking tour to Nilgiri and Nafakhum Waterfall.",
+      "day_3": "Morning visit to local markets, check-out from hotel, departure."
+    }
+  },
+  {
+    "name": "Rangamati",
+    "img": "https://i.postimg.cc/d1pSbc3Y/1646912135406.jpg",
+    "price": 180,
+    "category": "3 days",
+    "division": "Chittagong",
+    "sub_place_name": "Kaptai Lake, Hanging Bridge",
+    "activity": "Boat riding, cultural visits, photography",
+    "include": "Hotel stay, breakfast, boat tour",
+    "not_include": "Lunch, dinner, personal expenses",
+    "best_time_to_travel": "October to April",
+    "description": "Rangamati is known for its picturesque landscapes, serene Kaptai Lake, and vibrant tribal culture. It offers a tranquil escape for nature lovers and photographers.",
+    "itinerary": {
+      "day_1": "Arrival at Rangamati, check-in at hotel, visit local tribal markets.",
+      "day_2": "Full-day boat tour on Kaptai Lake, visit Hanging Bridge and local villages.",
+      "day_3": "Morning visit to local attractions, check-out from hotel, departure."
+    }
+  },
+  {
+    "name": "Saint Martin's Island",
+    "img": "https://i.postimg.cc/GhhsWT0b/a3af85fcc8b487cb7677352e06cd1f3f.jpg",
+    "price": 220,
+    "category": "3 days",
+    "division": "Chittagong",
+    "sub_place_name": "Chhera Island",
+    "activity": "Snorkeling, beach activities, photography",
+    "include": "Hotel stay, breakfast, boat tour",
+    "not_include": "Lunch, dinner, personal expenses",
+    "best_time_to_travel": "November to March",
+    "description": "Saint Martin's Island is the only coral island in Bangladesh, known for its crystal-clear waters and vibrant marine life. It is a perfect getaway for snorkeling and beach activities.",
+    "itinerary": {
+      "day_1": "Arrival at Saint Martin's Island, check-in at hotel, relax on the beach.",
+      "day_2": "Full-day tour to Chhera Island, snorkeling and beach activities.",
+      "day_3": "Morning leisure, check-out from hotel, departure."
+    }
+  },
+  {
+    "name": "Kuakata",
+    "img": "https://i.postimg.cc/9FKFLDC8/Sun-Rise-and-Sun-Set-kuakata-beach.png",
+    "price": 180,
+    "category": "3 days",
+    "division": "Barisal",
+    "sub_place_name": "Gangamati Reserved Forest",
+    "activity": "Beach activities, hiking, photography",
+    "include": "Hotel stay, breakfast, guided tour",
+    "not_include": "Lunch, dinner, personal expenses",
+    "best_time_to_travel": "October to March",
+    "description": "Kuakata is known as the 'Daughter of the Sea' for its panoramic sea views and spectacular sunrises and sunsets. It is a serene destination for beach activities and relaxation.",
+    "itinerary": {
+      "day_1": "Arrival at Kuakata, check-in at hotel, visit the beach in the evening.",
+      "day_2": "Full-day tour to Gangamati Reserved Forest and local attractions.",
+      "day_3": "Morning leisure, check-out from hotel, departure."
+    }
+  },
+  {
+    "name": "Paharpur",
+    "img": "https://i.postimg.cc/25mYtvJw/paharpur-buddhist-monastery.jpg",
+    "price": 140,
+    "category": "1 day",
+    "division": "Rajshahi",
+    "sub_place_name": "Somapura Mahavihara",
+    "activity": "Historical sightseeing, photography",
+    "include": "Guided tour, entry fees",
+    "not_include": "Meals, personal expenses",
+    "best_time_to_travel": "November to February",
+    "description": "Paharpur is home to the ancient Buddhist Vihara, Somapura Mahavihara, a UNESCO World Heritage Site. It is a significant archaeological site for history and culture enthusiasts.",
+    "itinerary": {
+      "day_1": "Arrival at Paharpur, guided tour of Somapura Mahavihara, explore the archaeological site, departure."
+    }
+  },
+  {
+    "name": "Mahasthangarh",
+    "img": "https://i.postimg.cc/dVFQbzZr/27715467586-81cf9c0141-b.jpg",
+    "price": 130,
+    "category": "1 day",
+    "division": "Rajshahi",
+    "sub_place_name": "Govinda Bhita Temple, Mahasthangarh Museum",
+    "activity": "Historical sightseeing, photography",
+    "include": "Guided tour, entry fees",
+    "not_include": "Meals, personal expenses",
+    "best_time_to_travel": "November to February",
+    "description": "Mahasthangarh is one of the earliest urban archaeological sites in Bangladesh, featuring ancient ruins and relics. It offers a fascinating journey into the country's historical past.",
+    "itinerary": {
+      "day_1": "Arrival at Mahasthangarh, guided tour of Govinda Bhita Temple and Mahasthangarh Museum, explore the archaeological site, departure."
+    }
+  },
+  {
+    "name": "Sonargaon",
+    "img": "https://i.postimg.cc/c4R0BXkH/boro-sardar-bari-sonargaon-museum-768-o-1.jpg",
+    "price": 120,
+    "category": "1 day",
+    "division": "Dhaka",
+    "sub_place_name": "Panam City, Sonargaon Museum",
+    "activity": "Historical sightseeing, photography",
+    "include": "Guided tour, entry fees",
+    "not_include": "Meals, personal expenses",
+    "best_time_to_travel": "October to March",
+    "description": "Sonargaon, the ancient capital of Bengal, is rich in history and culture, featuring historic buildings and museums. It is an excellent destination for history enthusiasts.",
+    "itinerary": {
+      "day_1": "Arrival at Sonargaon, guided tour of Panam City and Sonargaon Museum, explore local markets, departure."
+    }
+  }
+]
