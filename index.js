@@ -43,8 +43,14 @@ async function run() {
     const placesCollection = client
       .db("RafsanToursTravelsDB")
       .collection("places");
+    const testimonialsCollections = client
+      .db("RafsanToursTravelsDB")
+      .collection("testimonials");
+    const userCollections = client
+      .db("RafsanToursTravelsDB")
+      .collection("users");
 
-    app.get("/jwt", async (req, res) => {
+    app.post("/jwt", async (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1h",
@@ -52,9 +58,31 @@ async function run() {
       res.send({ token });
     });
 
-    const testimonialsCollections = client
-      .db("RafsanToursTravelsDB")
-      .collection("testimonials");
+    app.get("/users", async (req, res) => {
+      const result = await userCollections.find().toArray();
+      res.send(result);
+    });
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      const query = { email: user.email };
+      const existingUser = await userCollections.findOne(query);
+      if (existingUser) {
+        return res.send({ message: "user already exists", insertedId: null });
+      }
+      const result = await userCollections.insertOne(user);
+      res.send(result);
+    });
+    app.patch("/users/admin/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          role: "admin",
+        },
+      };
+      const result = await userCollections.updateOne(filter, updateDoc);
+      res.send(result);
+    });
 
     app.get("/places", async (req, res) => {
       const result = await placesCollection.find().toArray();
@@ -62,7 +90,6 @@ async function run() {
     });
     app.get("/places/:id", async (req, res) => {
       const id = req.params.id;
-
       const query = { _id: new ObjectId(id) };
       const result = await placesCollection.findOne(query);
       res.send(result);
