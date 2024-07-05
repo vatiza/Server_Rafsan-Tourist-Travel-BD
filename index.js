@@ -36,6 +36,9 @@ async function run() {
     const userCollections = client
       .db("RafsanToursTravelsDB")
       .collection("users");
+    const bookingCollections = client
+      .db("RafsanToursTravelsDB")
+      .collection("booking");
 
     app.post("/jwt", async (req, res) => {
       const user = req.body;
@@ -119,6 +122,13 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await placesCollection.findOne(query);
+      res.send(result);
+    });
+
+    app.post("/booking", async (req, res) => {
+      
+      const bookingInfo = req.body;
+      const result = await bookingCollections.insertOne(bookingInfo);
       res.send(result);
     });
     app.get("/testimonials", async (req, res) => {
