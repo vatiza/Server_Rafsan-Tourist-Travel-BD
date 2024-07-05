@@ -124,9 +124,20 @@ async function run() {
       const result = await placesCollection.findOne(query);
       res.send(result);
     });
+    app.get("/booking", async (req, res) => {
+      const email = req.query.email;
+      const query = { cEmail: email };
+      const result = await bookingCollections.find(query).toArray();
+      res.send(result);
+    });
 
+    app.delete("/booking/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await bookingCollections.deleteOne(query);
+      res.send(result);
+    });
     app.post("/booking", async (req, res) => {
-      
       const bookingInfo = req.body;
       const result = await bookingCollections.insertOne(bookingInfo);
       res.send(result);
