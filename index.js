@@ -3,7 +3,15 @@ const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 5000;
 require("dotenv").config();
+const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
+const {
+  createPayment,
+  executePayment,
+  queryPayment,
+  searchTransaction,
+  refundTransaction,
+} = require("bkash-payment");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 //middlewares
 app.use(cors());
@@ -19,6 +27,14 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
+
+const bkashConfig = {
+  base_url: process.env.VITE_BASE_URL,
+  username: process.env.VITE_USERNAME,
+  password: process.env.VITE_PASSWORD,
+  app_key: process.env.VITE_APP_KEY,
+  app_secret: process.env.VITE_APP_SECRET,
+};
 
 async function run() {
   try {
@@ -118,12 +134,26 @@ async function run() {
       const result = await placesCollection.find().toArray();
       res.send(result);
     });
+
     app.get("/places/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await placesCollection.findOne(query);
       res.send(result);
     });
+    app.post("/places", async (req, res) => {
+      const placesData = req.body;
+      const result = await placesCollection.insertOne(placesData);
+      res.send(result);
+    });
+
+    app.delete("/places/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await placesCollection.deleteOne(query);
+      res.send(result);
+    });
+
     app.get("/booking", async (req, res) => {
       const email = req.query.email;
       const query = { cEmail: email };
@@ -150,6 +180,87 @@ async function run() {
     app.get("/carousel", async (req, res) => {
       const result = await carouselCollections.find().toArray();
       res.send(result);
+    });
+
+    //Bkash Payment
+
+    app.post("/bkash-checkout", async (req, res) => {
+      try {
+        const { amount, callbackURL, orderID, reference } = req.body;
+        const paymentDetails = {
+          amount: amount || 10, // your product price
+          callbackURL: callbackURL, // your callback route
+          orderID: orderID || "Order_101", // your orderID
+          reference: reference || "1", // your reference
+        };
+        const result = await createPayment(bkashConfig, paymentDetails);
+        res.status(200).send(result?.bkashURL);
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    app.get("/bkash-callback", async (req, res) => {
+      try {
+        const { status, paymentID } = req.query;
+        let result;
+        let response = {
+          statusCode: "4000",
+          statusMessage: "Payment Failed",
+        };
+        if (status === "success")
+          result = await executePayment(bkashConfig, paymentID);
+
+        if (result?.transactionStatus === "Completed") {
+          // payment success
+          // insert result in your db
+        }
+        if (result)
+          response = {
+            statusCode: result?.statusCode,
+            statusMessage: result?.statusMessage,
+          };
+
+        res.redirect("http://localhost:5173/dashboard/mybooking");
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    // Add this route under admin middleware
+    app.post("/bkash-refund", async (req, res) => {
+      try {
+        const { paymentID, trxID, amount } = req.body;
+        const refundDetails = {
+          paymentID,
+          trxID,
+          amount,
+        };
+        const result = await refundTransaction(bkashConfig, refundDetails);
+        res.send(result);
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    app.get("/bkash-search", async (req, res) => {
+      try {
+        const { trxID } = req.query;
+        const result = await searchTransaction(bkashConfig, trxID);
+        res.send(result);
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    app.get("/bkash-query", async (req, res) => {
+      try {
+        const { paymentID } = req.query;
+        const result = await queryPayment(bkashConfig, paymentID);
+        res.send(result);
+      } catch (e) {
+        console.log(e);
+      }
     });
 
     // Send a ping to confirm a successful connection
