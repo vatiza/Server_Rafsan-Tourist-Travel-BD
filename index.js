@@ -79,37 +79,42 @@ async function run() {
       });
     };
 
-    const verifyAdmin = async (req, res, next) => {
+   const verifyAdmin = async (req, res, next) => {
       const email = req.decoded.email;
       const query = { email: email };
       const user = await userCollections.findOne(query);
-      const isAdmin = user?.role === "admin";
+      const isAdmin = user?.role === 'admin';
       if (!isAdmin) {
-        return res.status(403).send({ message: "forbidden access" });
+        return res.status(403).send({ message: 'forbidden access' });
       }
       next();
-    };
+    }
 
-    app.get("/users", verifyToken, verifyAdmin, async (req, res) => {
+    app.get("/users", verifyToken,verifyAdmin,  async (req, res) => {
       const result = await userCollections.find().toArray();
       res.send(result);
     });
-    app.get("/users/admin/:email", verifyToken, async (req, res) => {
+ 
+app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const email = req.params.email;
-      if (email !== req.decoded?.email) {
-        return res.status(403).send({ message: "forbidden access" });
+
+      if (email !== req.decoded.email) {
+        return res.status(403).send({ message: 'forbidden access' })
       }
+
       const query = { email: email };
       const user = await userCollections.findOne(query);
       let admin = false;
       if (user) {
-        admin = user?.role === "admin";
+        admin = user?.role === 'admin';
       }
       res.send({ admin });
-    });
+    })
 
-    app.post("/users", async (req, res) => {
+
+    app.post("/users",  async (req, res) => {
       const user = req.body;
+      console.log(user);
       const query = { email: user.email };
       const existingUser = await userCollections.findOne(query);
       if (existingUser) {
@@ -118,7 +123,7 @@ async function run() {
       const result = await userCollections.insertOne(user);
       res.send(result);
     });
-    app.patch("/users/admin/:id", async (req, res) => {
+    app.patch("/users/admin/:id", verifyToken, async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const updateDoc = {
@@ -141,27 +146,27 @@ async function run() {
       const result = await placesCollection.findOne(query);
       res.send(result);
     });
-    app.post("/places", async (req, res) => {
+    app.post("/places", verifyToken,  async (req, res) => {
       const placesData = req.body;
       const result = await placesCollection.insertOne(placesData);
       res.send(result);
     });
 
-    app.delete("/places/:id", async (req, res) => {
+    app.delete("/places/:id", verifyToken, verifyAdmin, async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await placesCollection.deleteOne(query);
       res.send(result);
     });
 
-    app.get("/booking", async (req, res) => {
+    app.get("/booking", verifyToken, async (req, res) => {
       const email = req.query.email;
       const query = { cEmail: email };
       const result = await bookingCollections.find(query).toArray();
       res.send(result);
     });
 
-    app.delete("/booking/:id", async (req, res) => {
+    app.delete("/booking/:id", verifyToken, async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await bookingCollections.deleteOne(query);
