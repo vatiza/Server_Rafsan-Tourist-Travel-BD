@@ -40,9 +40,9 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    const carouselCollections = client
+    const eventsCollections = client
       .db("RafsanToursTravelsDB")
-      .collection("carousel");
+      .collection("events");
     const placesCollection = client
       .db("RafsanToursTravelsDB")
       .collection("places");
@@ -182,10 +182,23 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       res.send(result);
     });
 
-    app.get("/carousel", async (req, res) => {
-      const result = await carouselCollections.find().toArray();
+    app.get("/events", async (req, res) => {
+      const result = await eventsCollections.find().toArray();
       res.send(result);
     });
+    app.post('/events',verifyToken,verifyAdmin, async(req,res)=>{
+      const events=req.body;
+      const result=await eventsCollections.insertOne(events);
+      res.send(result)
+    })
+
+    app.delete('/events/:id',verifyToken,verifyAdmin, async(req,res)=>{
+      const id=req.params.id;
+      const query={_id:new ObjectId(id)}
+      const result=await eventsCollections.deleteOne(query)
+      res.send(result);
+    })
+   
 
     //Bkash Payment
 
@@ -193,10 +206,10 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       try {
         const { amount, callbackURL, orderID, reference } = req.body;
         const paymentDetails = {
-          amount: amount || 10, // your product price
-          callbackURL: callbackURL, // your callback route
-          orderID: orderID || "Order_101", // your orderID
-          reference: reference || "1", // your reference
+          amount: amount || 10, 
+          callbackURL: callbackURL, 
+          orderID: orderID || "Order_101",
+          reference: reference || "1",
         };
         const result = await createPayment(bkashConfig, paymentDetails);
         res.status(200).send(result?.bkashURL);
