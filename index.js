@@ -39,7 +39,7 @@ const bkashConfig = {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+     client.connect(); //await remove because vercel problem
     const eventsCollections = client
       .db("RafsanToursTravelsDB")
       .collection("events");
@@ -66,7 +66,7 @@ async function run() {
     });
 
     const verifyToken = (req, res, next) => {
-      // console.log('inside verify token', req.headers.authorization);
+    
       if (!req.headers.authorization) {
         return res.status(401).send({ message: "unauthorized access" });
       }
@@ -115,7 +115,7 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
 
     app.post("/users",  async (req, res) => {
       const user = req.body;
-      console.log(user);
+     
       const query = { email: user.email };
       const existingUser = await userCollections.findOne(query);
       if (existingUser) {
@@ -225,7 +225,7 @@ app.delete('/gallery/:id',verifyToken,verifyAdmin,async(req,res)=>{
    
 
     //Bkash Payment
-
+// todo payment is Loading
     app.post("/bkash-checkout", async (req, res) => {
       try {
         const { amount, callbackURL, orderID, reference } = req.body;
