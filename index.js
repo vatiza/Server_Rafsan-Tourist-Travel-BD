@@ -55,6 +55,7 @@ async function run() {
     const bookingCollections = client
       .db("RafsanToursTravelsDB")
       .collection("booking");
+      const galleryCollections=client.db('RafsanToursTravelsDB').collection("gallery")
 
     app.post("/jwt", async (req, res) => {
       const user = req.body;
@@ -165,6 +166,7 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const result = await bookingCollections.find(query).toArray();
       res.send(result);
     });
+ 
 
     app.delete("/booking/:id", verifyToken, async (req, res) => {
       const id = req.params.id;
@@ -188,7 +190,11 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
     });
     app.post('/events',verifyToken,verifyAdmin, async(req,res)=>{
       const events=req.body;
-      const result=await eventsCollections.insertOne(events);
+      const newEvents={
+        img:events.img,
+        date:new Date(events.date)
+      }
+      const result=await eventsCollections.insertOne(newEvents);
       res.send(result)
     })
 
@@ -197,6 +203,18 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const query={_id:new ObjectId(id)}
       const result=await eventsCollections.deleteOne(query)
       res.send(result);
+    })
+
+    app.get('/gallery',async(req,res)=>{
+      const result=await galleryCollections.find().toArray()
+      res.send(result);
+    })
+
+app.post('/gallery',verifyToken,verifyAdmin, async (req,res)=>{
+const photos=req.body;
+const result=await galleryCollections.insertOne(photos);
+res.send(result);
+
     })
    
 
