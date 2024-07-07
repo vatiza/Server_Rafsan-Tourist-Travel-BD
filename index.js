@@ -113,7 +113,7 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
     })
 
 
-    app.post("/users",  async (req, res) => {
+    app.post("/users", verifyToken,  async (req, res) => {
       const user = req.body;
      
       const query = { email: user.email };
@@ -124,7 +124,7 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const result = await userCollections.insertOne(user);
       res.send(result);
     });
-    app.patch("/users/admin/:id", verifyToken, async (req, res) => {
+    app.patch("/users/admin/:id", verifyToken,verifyAdmin, async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const updateDoc = {
@@ -147,7 +147,7 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const result = await placesCollection.findOne(query);
       res.send(result);
     });
-    app.post("/places", verifyToken,  async (req, res) => {
+    app.post("/places", verifyToken,verifyAdmin,  async (req, res) => {
       const placesData = req.body;
       const result = await placesCollection.insertOne(placesData);
       res.send(result);
@@ -174,7 +174,7 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const result = await bookingCollections.deleteOne(query);
       res.send(result);
     });
-    app.post("/booking", async (req, res) => {
+    app.post("/booking", verifyToken,verifyAdmin, async (req, res) => {
       const bookingInfo = req.body;
       const result = await bookingCollections.insertOne(bookingInfo);
       res.send(result);
