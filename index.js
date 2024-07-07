@@ -114,7 +114,7 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
     })
 
 
-    app.post("/users", verifyToken,  async (req, res) => {
+    app.post("/users",async (req, res) => {
       const user = req.body;
      
       const query = { email: user.email };
