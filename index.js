@@ -1,8 +1,9 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const port = process.env.PORT || 5000;
 require("dotenv").config();
+const port = process.env.PORT || 5000;
+
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const {
@@ -39,7 +40,7 @@ const bkashConfig = {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-   await client.connect(); //await remove because vercel problem
+   client.connect(); //await remove because vercel problem
     const eventsCollections = client
       .db("RafsanToursTravelsDB")
       .collection("events");
