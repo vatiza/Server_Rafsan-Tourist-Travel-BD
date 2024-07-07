@@ -216,6 +216,12 @@ const result=await galleryCollections.insertOne(photos);
 res.send(result);
 
     })
+app.delete('/gallery/:id',verifyToken,verifyAdmin,async(req,res)=>{
+  const id=req.params.id;
+  const query={_id:new ObjectId(id)}
+  const result=await galleryCollections.deleteOne(query)
+  res.send(result);
+})
    
 
     //Bkash Payment
