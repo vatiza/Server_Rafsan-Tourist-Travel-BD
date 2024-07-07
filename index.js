@@ -39,7 +39,7 @@ const bkashConfig = {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-     client.connect(); //await remove because vercel problem
+   await client.connect(); //await remove because vercel problem
     const eventsCollections = client
       .db("RafsanToursTravelsDB")
       .collection("events");
