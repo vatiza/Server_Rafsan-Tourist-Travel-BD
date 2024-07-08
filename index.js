@@ -175,7 +175,7 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const result = await bookingCollections.deleteOne(query);
       res.send(result);
     });
-    app.post("/booking", verifyToken,verifyAdmin, async (req, res) => {
+    app.post("/booking", verifyToken, async (req, res) => {
       const bookingInfo = req.body;
       const result = await bookingCollections.insertOne(bookingInfo);
       res.send(result);
