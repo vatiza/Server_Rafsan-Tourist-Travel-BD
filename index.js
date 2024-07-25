@@ -40,7 +40,7 @@ const bkashConfig = {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-   client.connect(); //await remove because vercel problem
+    client.connect(); //await remove because vercel problem
     const eventsCollections = client
       .db("RafsanToursTravelsDB")
       .collection("events");
@@ -56,7 +56,9 @@ async function run() {
     const bookingCollections = client
       .db("RafsanToursTravelsDB")
       .collection("booking");
-      const galleryCollections=client.db('RafsanToursTravelsDB').collection("gallery")
+    const galleryCollections = client
+      .db("RafsanToursTravelsDB")
+      .collection("gallery");
 
     app.post("/jwt", async (req, res) => {
       const user = req.body;
@@ -67,7 +69,6 @@ async function run() {
     });
 
     const verifyToken = (req, res, next) => {
-    
       if (!req.headers.authorization) {
         return res.status(401).send({ message: "unauthorized access" });
       }
@@ -81,42 +82,41 @@ async function run() {
       });
     };
 
-   const verifyAdmin = async (req, res, next) => {
+    const verifyAdmin = async (req, res, next) => {
       const email = req.decoded.email;
       const query = { email: email };
       const user = await userCollections.findOne(query);
-      const isAdmin = user?.role === 'admin';
+      const isAdmin = user?.role === "admin";
       if (!isAdmin) {
-        return res.status(403).send({ message: 'forbidden access' });
+        return res.status(403).send({ message: "forbidden access" });
       }
       next();
-    }
+    };
 
-    app.get("/users", verifyToken,verifyAdmin,  async (req, res) => {
+    app.get("/users", verifyToken, verifyAdmin, async (req, res) => {
       const result = await userCollections.find().toArray();
       res.send(result);
     });
- 
-app.get('/users/admin/:email', verifyToken, async (req, res) => {
+
+    app.get("/users/admin/:email", verifyToken, async (req, res) => {
       const email = req.params.email;
 
       if (email !== req.decoded.email) {
-        return res.status(403).send({ message: 'forbidden access' })
+        return res.status(403).send({ message: "forbidden access" });
       }
 
       const query = { email: email };
       const user = await userCollections.findOne(query);
       let admin = false;
       if (user) {
-        admin = user?.role === 'admin';
+        admin = user?.role === "admin";
       }
       res.send({ admin });
-    })
+    });
 
-
-    app.post("/users",async (req, res) => {
+    app.post("/users", async (req, res) => {
       const user = req.body;
-     
+
       const query = { email: user.email };
       const existingUser = await userCollections.findOne(query);
       if (existingUser) {
@@ -125,15 +125,26 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const result = await userCollections.insertOne(user);
       res.send(result);
     });
-    app.patch("/users/admin/:id", verifyToken,verifyAdmin, async (req, res) => {
+    app.patch(
+      "/users/admin/:id",
+      verifyToken,
+      verifyAdmin,
+      async (req, res) => {
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        const updateDoc = {
+          $set: {
+            role: "admin",
+          },
+        };
+        const result = await userCollections.updateOne(filter, updateDoc);
+        res.send(result);
+      }
+    );
+    app.path("/users/:id", verifyToken, verifyAdmin, async (req, res) => {
       const id = req.params.id;
-      const filter = { _id: new ObjectId(id) };
-      const updateDoc = {
-        $set: {
-          role: "admin",
-        },
-      };
-      const result = await userCollections.updateOne(filter, updateDoc);
+      const query = { _id: new ObjectId(id) };
+      const result = await userCollections.deleteOne(query);
       res.send(result);
     });
 
@@ -148,7 +159,7 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const result = await placesCollection.findOne(query);
       res.send(result);
     });
-    app.post("/places", verifyToken,verifyAdmin,  async (req, res) => {
+    app.post("/places", verifyToken, verifyAdmin, async (req, res) => {
       const placesData = req.body;
       const result = await placesCollection.insertOne(placesData);
       res.send(result);
@@ -167,7 +178,6 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const result = await bookingCollections.find(query).toArray();
       res.send(result);
     });
- 
 
     app.delete("/booking/:id", verifyToken, async (req, res) => {
       const id = req.params.id;
@@ -189,50 +199,48 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
       const result = await eventsCollections.find().toArray();
       res.send(result);
     });
-    app.post('/events',verifyToken,verifyAdmin, async(req,res)=>{
-      const events=req.body;
-      const newEvents={
-        img:events.img,
-        date:new Date(events.date)
-      }
-      const result=await eventsCollections.insertOne(newEvents);
-      res.send(result)
-    })
-
-    app.delete('/events/:id',verifyToken,verifyAdmin, async(req,res)=>{
-      const id=req.params.id;
-      const query={_id:new ObjectId(id)}
-      const result=await eventsCollections.deleteOne(query)
+    app.post("/events", verifyToken, verifyAdmin, async (req, res) => {
+      const events = req.body;
+      const newEvents = {
+        img: events.img,
+        date: new Date(events.date),
+      };
+      const result = await eventsCollections.insertOne(newEvents);
       res.send(result);
-    })
+    });
 
-    app.get('/gallery',async(req,res)=>{
-      const result=await galleryCollections.find().toArray()
+    app.delete("/events/:id", verifyToken, verifyAdmin, async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await eventsCollections.deleteOne(query);
       res.send(result);
-    })
+    });
 
-app.post('/gallery',verifyToken,verifyAdmin, async (req,res)=>{
-const photos=req.body;
-const result=await galleryCollections.insertOne(photos);
-res.send(result);
+    app.get("/gallery", async (req, res) => {
+      const result = await galleryCollections.find().toArray();
+      res.send(result);
+    });
 
-    })
-app.delete('/gallery/:id',verifyToken,verifyAdmin,async(req,res)=>{
-  const id=req.params.id;
-  const query={_id:new ObjectId(id)}
-  const result=await galleryCollections.deleteOne(query)
-  res.send(result);
-})
-   
+    app.post("/gallery", verifyToken, verifyAdmin, async (req, res) => {
+      const photos = req.body;
+      const result = await galleryCollections.insertOne(photos);
+      res.send(result);
+    });
+    app.delete("/gallery/:id", verifyToken, verifyAdmin, async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await galleryCollections.deleteOne(query);
+      res.send(result);
+    });
 
     //Bkash Payment
-// todo payment is Loading
+    // todo payment is Loading
     app.post("/bkash-checkout", async (req, res) => {
       try {
         const { amount, callbackURL, orderID, reference } = req.body;
         const paymentDetails = {
-          amount: amount || 10, 
-          callbackURL: callbackURL, 
+          amount: amount || 10,
+          callbackURL: callbackURL,
           orderID: orderID || "Order_101",
           reference: reference || "1",
         };
